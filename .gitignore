@@ -11,3 +11,4 @@ full_text_ocr_cleaned.txt
 # Python cache
 __pycache__/
 *.pyc
+source_data/
