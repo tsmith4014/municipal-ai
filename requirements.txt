@@ -4,3 +4,8 @@ langchain-community
 # For advanced PDF processing and OCR
 unstructured[pdf,ocr]
 PyMuPDF
+# Add these new lines
+langchain-aws
+langchain-chroma
+python-dotenv
+tqdm
