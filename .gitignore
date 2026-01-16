@@ -1,6 +1,5 @@
 # Environment and local data
 venv/
-source_data/
 chroma_db/
 *.sqlite3
 
@@ -12,3 +11,8 @@ full_text_ocr_cleaned.txt
 __pycache__/
 *.pyc
 source_data/
+scrape_prospects.py
+.env
+
+.DS_Store
+
