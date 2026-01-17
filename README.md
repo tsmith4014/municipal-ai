@@ -27,7 +27,7 @@ This project uses AWS Bedrock for embeddings and LLM. You need an AWS account wi
 # Copy the template
 cp .env_template .env
 
-# Edit .env and set your AWS profile name
+# Optionally, Edit .env and set your AWS profile name
 # AWS_PROFILE=your-profile-name
 ```
 
@@ -43,21 +43,6 @@ brew install tesseract
 
 # Ubuntu/Debian
 sudo apt-get install tesseract-ocr
-```
-
-### 5. Add Your Source Document
-
-Place your PDF in the `source_data/` directory:
-
-```bash
-mkdir -p source_data
-# Copy your PDF to source_data/
-```
-
-Update `ingest.py` to point to your file:
-
-```python
-PDF_PATH = "source_data/your_document.pdf"
 ```
 
 ### 6. Run the Pipeline
@@ -115,7 +100,7 @@ PDF_PATH = "source_data/dnd_srd.pdf"
 
 ```python
 prompt_template = """
-You are an expert Dungeon Master assistant for D&D 5th Edition. 
+You are an expert Dungeon Master assistant for D&D 5th Edition.
 Your task is to answer questions based ONLY on the following context from the SRD.
 If the context does not contain the answer, state that the information is not available.
 
@@ -138,6 +123,7 @@ python main.py
 ```
 
 Now ask questions like:
+
 - "What spells can a level 3 wizard cast?"
 - "How does grappling work?"
 - "What are the stats for an Owlbear?"
@@ -182,11 +168,11 @@ For structured data (like player profiles, product catalogs, etc.):
 def parse_custom_data(text):
     """Parse your specific document format."""
     documents = []
-    
+
     # Example: Split by a custom pattern
     pattern = r'(ITEM \d+:.*?)(?=ITEM \d+:|$)'
     matches = re.findall(pattern, text, re.DOTALL)
-    
+
     for i, content in enumerate(matches):
         documents.append(
             Document(
@@ -194,7 +180,7 @@ def parse_custom_data(text):
                 metadata={"item_number": i + 1}
             )
         )
-    
+
     return documents
 ```
 
@@ -211,6 +197,7 @@ embeddings = BedrockEmbeddings(
 ```
 
 Available Bedrock embedding models:
+
 - `amazon.titan-embed-text-v1`
 - `amazon.titan-embed-text-v2:0`
 - `cohere.embed-english-v3`
@@ -232,6 +219,7 @@ llm = ChatBedrock(
 ```
 
 Available Bedrock LLMs:
+
 - `us.amazon.nova-lite-v1:0`
 - `us.amazon.nova-pro-v1:0`
 - `anthropic.claude-3-sonnet-20240229-v1:0`
@@ -251,15 +239,19 @@ retriever = db.as_retriever(search_kwargs={'k': 5})  # Retrieve 5 docs instead o
 ## Troubleshooting
 
 ### "GOOGLE_API_KEY not found"
+
 This project uses AWS Bedrock, not Google. Make sure your `.env` file has `AWS_PROFILE` set correctly.
 
 ### "No module named 'unstructured'"
+
 Run `pip install -r requirements.txt` from your activated virtual environment.
 
 ### "Tesseract not found"
+
 Install Tesseract OCR (see Step 4 above).
 
 ### Empty or poor results
+
 - Check that `full_text_ocr.txt` contains your extracted text
 - Try increasing `chunk_size` in `load_to_db.py`
 - Try increasing `k` in the retriever
@@ -288,7 +280,3 @@ Install Tesseract OCR (see Step 4 above).
 ```
 
 ---
-
-## License
-
-MIT
